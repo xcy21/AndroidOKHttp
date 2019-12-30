@@ -3,6 +3,7 @@ package com.example.loginregtest;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "MainActivity";
     private EditText etusername,etpassword;
     private Button btnLogin,btnRegist;
 
@@ -42,13 +44,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.bt_login:
-                String loginAddress = "http://192.168.0.107:8080/aaa/Servlettest/LoginServlet";
+                String loginAddress = "http://192.168.0.107:8080/okHttpServer/okServlet/LoginServlet";
                 String loginusername = etusername.getText().toString();
                 String loginpassword = etpassword.getText().toString();
                 loginWithOkHttp(loginAddress,loginusername,loginpassword);
                 break;
             case R.id.bt_regist:
-                String registerAddress = "http://192.168.0.107:8080/aaa/Servlettest/RegistServlet";
+                String registerAddress = "http://192.168.0.107:8080/okHttpServer/okServlet/RegServlet";
                 String regusername = etusername.getText().toString();
                 String regpassword = etpassword.getText().toString();
                 registerWithOkHttp(registerAddress,regusername,regpassword);
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(Call call, Response response) throws IOException {
                 //得到服务器返回的具体内容
                 final String responseData = response.body().string();
+                Log.d(TAG, "onResponse: "+responseData);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
